@@ -2,28 +2,37 @@
 
 $inData = getRequestInfo();
 
-$firstName = $inData["firstName"];
-$lastName = $inData["lastName"];
-$username = $inData["login"];
-$password = $inData["password"];
-
 $conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "UserInfo");
 
 if( $conn->connect_error )
 {
-	returnWithError( $conn->connect_error );
+    returnWithError( $conn->connect_error );
 }
 else
 {
-	$stmt = $conn->prepare("INSERT into Users (FirstName, LastName, Login, Password) VALUES(?,?,?,?)");
-	$stmt->bind_param("ssss", $firstName, $lastName, $username, $password);
-	$stmt->execute();
+    $stmt = $conn->prepare("SELECT ID, FirstName, LastName FROM Users WHERE login=?");
+    $stmt->bind_param("s", $inData["login"]);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-	$stmt->close();
-	$conn->close();
+    if($row = $result->fetch_assoc())
+    {
+        returnWithError("User Already Exists");
+    }
+    else
+    {
+        $stmt = $conn->prepare("INSERT into Users (FirstName, LastName, Login, Password) VALUES(?,?,?,?)");
+        $stmt->bind_param("ssss", $inData["firstName"], $inData["lastName"], $inData["login"], $inData["password"]);
+        $stmt->execute();
 
-    returnWithError("");
+        returnWithInfo($inData["firstName"], $inData["lastName"], $stmt->insert_id);
+    }
+
+    $stmt->close();
+    $conn->close();
+
 }
+
 function getRequestInfo()
 {
     return json_decode(file_get_contents('php://input'), true);
@@ -38,5 +47,11 @@ function sendResultInfoAsJson( $obj )
 function returnWithError( $err )
 {
     $retValue = '{"error":"' . $err . '"}';
+    sendResultInfoAsJson( $retValue );
+}
+
+function returnWithInfo($firstName, $lastName, $id)
+{
+    $retValue = '{"id":' . $id . ',"firstName":"' . $firstName . '","lastName":"' . $lastName . '","error":""}';
     sendResultInfoAsJson( $retValue );
 }

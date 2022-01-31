@@ -2,12 +2,6 @@
 
 $inData = getRequestInfo();
 
-$firstName = $inData["firstName"];
-$lastName = $inData["lastName"];
-$email = $inData["email"];
-$phone = $inData["phone"];
-$userId = $inData["userId"];
-
 $conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "UserInfo");
 
 if( $conn->connect_error )
@@ -16,14 +10,26 @@ if( $conn->connect_error )
 }
 else
 {
-    $stmt = $conn->prepare("INSERT into Contacts (FirstName, LastName, Email, Phone, UserID) VALUES(?,?,?,?,?)");
-    $stmt->bind_param("ssssi", $firstName, $lastName, $email, $phone, $userId);
+    $stmt = $conn->prepare("SELECT ID, FirstName, LastName FROM Contacts WHERE FirstName=? and LastName=? and Email=? and Phone=? and UserID=?");
+    $stmt->bind_param("ssssi", $inData["firstName"], $inData["lastName"], $inData["email"], $inData["phone"], $inData["userId"]);
     $stmt->execute();
+    $result = $stmt->get_result();
+
+    if($row = $result->fetch_assoc())
+    {
+        returnWithError("Contact Already Exists");
+    }
+    else
+    {
+        $stmt = $conn->prepare("INSERT into Contacts (FirstName, LastName, Email, Phone, UserID) VALUES(?,?,?,?,?)");
+        $stmt->bind_param("ssssi", $inData["firstName"], $inData["lastName"], $inData["email"], $inData["phone"], $inData["userId"]);
+        $stmt->execute();
+
+        returnWithError("");
+    }
 
     $stmt->close();
     $conn->close();
-
-    returnWithError("");
 }
 function getRequestInfo()
 {
