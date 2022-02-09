@@ -6,7 +6,7 @@ $inData = getRequestInfo();
 //$lastName = $inData["lastName"];
 //$username = $inData["login"];
 //$password = $inData["password"];
-$id = $inData["ID"];
+$id = $inData["id"];
 
 $conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "UserInfo");
 
