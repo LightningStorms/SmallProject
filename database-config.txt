@@ -1,0 +1,18 @@
+CREATE TABLE `UserInfo`.`Users` ( `ID` INT NOT NULL AUTO_INCREMENT , `DateCreated` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP , `DateLastLoggedIn` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP , `FirstName` VARCHAR(50) NOT NULL DEFAULT '' , `LastName` VARCHAR(50) NOT NULL DEFAULT '' , `Login` VARCHAR(50) NOT NULL DEFAULT '' , `Password` VARCHAR(50) NOT NULL DEFAULT '' , PRIMARY KEY (`ID`)) ENGINE = InnoDB;
+
+CREATE TABLE `UserInfo`.`Contacts` ( `ID` INT NOT NULL AUTO_INCREMENT , `DateCreated` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP , `FirstName` VARCHAR(50) NOT NULL DEFAULT '' , `LastName` VARCHAR(50) NOT NULL DEFAULT '', `Email` VARCHAR(50) NOT NULL DEFAULT '' , `Phone` VARCHAR(50) NOT NULL DEFAULT '' , `UserID` INT NOT NULL DEFAULT '0' , PRIMARY KEY (`ID`)) ENGINE = InnoDB;
+
+insert into Users (FirstName,LastName,Login,Password) VALUES ('Bob','Dylan','papaBob','bigfish123');
+insert into Users (FirstName,LastName,Login,Password) VALUES ('Tyler','Durden','fighter1','smallfish456');
+insert into Users (FirstName,LastName,Login,Password) VALUES ('Rick','Leinecker','RickL','eb7095efb774f2');
+insert into Users (FirstName,LastName,Login,Password) VALUES ('Sam','Hill','SamH','d0809a388dc95a615b');
+
+insert into Contacts (FirstName,LastName,Email,Phone,UserID) VALUES ('Frank', 'Smith','FrankSmith@gmail.com', '4075555555', 1);
+insert into Contacts (FirstName,LastName,Email,Phone,UserID) VALUES ('Sally', 'Smith','salsmith123@hotmail.com', '4082352342', 1);
+insert into Contacts (FirstName,LastName,Email,Phone,UserID) VALUES ('Dylan', 'lee','dylanlee8@outlook.com', '2225552222', 1);
+insert into Contacts (FirstName,LastName,Email,Phone,UserID) VALUES ('Suzzane', 'Christopher','suzzysuze@gmail.com', '3334445555', 1);
+
+insert into Contacts (FirstName,LastName,Email,Phone,UserID) VALUES ('Kayle', 'loen','kaylaloen@hotmail.com', '5425232353', 2);
+insert into Contacts (FirstName,LastName,Email,Phone,UserID) VALUES ('Emily', 'Soen','Emily@outlook.com', '2225552222', 2);
+insert into Contacts (FirstName,LastName,Email,Phone,UserID) VALUES ('Suzzane', 'Christopher','suzzysuze@gmail.com', '3334445555', 2);
+insert into Contacts (FirstName,LastName,Email,Phone,UserID) VALUES ('Frank', 'Smith','FrankSmith@gmail.com', '4075555555', 2);
